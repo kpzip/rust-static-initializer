@@ -50,20 +50,47 @@ pub fn static_init(item: TokenStream) -> TokenStream {
         struct _AssertSized where #ty: std::marker::Sized;
     };
 
+    let module_name = format_ident!("__static_init_module_n{}", name.to_string().to_lowercase());
 
     let expanded = quote! {
         #vis struct #name;
+
+        pub mod #module_name {
+
+            #assert_sync
+            #assert_sized
+
+            static mut INTERNAL: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
+
+            #[allow(unused_braces)]
+            pub unsafe fn init() {
+                // SAFETY: this is the only place where it can be accessed mutably
+                unsafe {
+                    (&mut *(&raw mut INTERNAL)).write(#init);
+                }
+            }
+
+            pub unsafe fn deinit() {
+                // SAFETY: this is only called when the program exits
+                unsafe {
+                    (&mut *(&raw mut INTERNAL)).assume_init_drop();
+                }
+            }
+
+            pub unsafe fn get_raw() -> *const core::mem::MaybeUninit<#ty> {
+                &raw const INTERNAL
+            }
+
+        }
 
         impl std::ops::Deref for #name {
             type Target = #ty;
 
             fn deref(&self) -> &Self::Target {
 
-                static mut INTERNAL: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
-
                 // SAFETY: initialized at the top of main
                 unsafe {
-                    (&*(&raw const INTERNAL)).assume_init_ref()
+                    (&*#module_name ::get_raw()).assume_init_ref()
                 }
             }
         }
