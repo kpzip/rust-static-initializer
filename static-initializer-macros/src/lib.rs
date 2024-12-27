@@ -66,17 +66,18 @@ pub fn static_init(attr: TokenStream, item: TokenStream) -> TokenStream {
     }
 
     let expanded = quote! {
-        #vis mod #name {
+        #vis struct #name;
 
-            #assert_sync
-            #assert_sized
+        impl std::ops::Deref for #name {
+            type Target = #ty;
 
-            static mut __STATIC_INIT_INTERNAL_STATIC_ #name: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
+            fn deref(&self) -> &Self::Target {
 
-            pub fn get_ #name() -> &'static #ty {
+                static mut INTERNAL: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
+
                 // SAFETY: initialized at the top of main
                 unsafe {
-                    (&*(&raw const __STATIC_INIT_INTERNAL_STATIC_ #name)).assume_init_ref()
+                    (&*(&raw const INTERNAL)).assume_init_ref()
                 }
             }
         }
