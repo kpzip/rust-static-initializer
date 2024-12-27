@@ -51,14 +51,18 @@ pub fn static_init(attr: TokenStream, item: TokenStream) -> TokenStream {
         struct _AssertSized where #ty: std::marker::Sized;
     };
 
-    // User should set the static to equal unimplemented
-    let unimplemented = quote! { unimplemented!() };
+    // User should set the static to equal unimplemented\
+    // todo make this do path comparison?
+    let mut warning = true;
     if let Macro(m) = init {
-        if m.mac.path == syn::Path::parse(unimplemented).unwrap() {
-
+        if let Some(ident) = m.mac.path.get_ident() {
+            if ident == "unimplemented" {
+                // No Warning
+                warning = false;
+            }
         }
     }
-    if init {
+    if warning {
         init.span().unwrap().warning("static with initializer should be set equal to `unimplemented!()`!").emit();
     }
 
