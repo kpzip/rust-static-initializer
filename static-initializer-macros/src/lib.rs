@@ -11,7 +11,7 @@ struct StaticWithInitializer {
     vis: Visibility,
     name: Ident,
     ty: Type,
-    init: Expr,
+    init: ExprBlock,
 }
 
 impl Parse for StaticWithInitializer {
@@ -22,7 +22,8 @@ impl Parse for StaticWithInitializer {
         input.parse::<Token![:]>()?;
         let ty: Type = input.parse()?;
         input.parse::<Token![=]>()?;
-        let init: Expr = input.parse()?;
+        input.parse::<Token![static]>()?;
+        let init: ExprBlock = input.parse()?;
         input.parse::<Token![;]>()?;
         Ok(StaticWithInitializer {
             vis,
