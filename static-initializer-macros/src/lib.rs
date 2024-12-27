@@ -1,9 +1,8 @@
 #![feature(proc_macro_diagnostic)]
 
 use proc_macro::TokenStream;
-use quote::{quote, quote_spanned, ToTokens};
-use syn::{Expr, ExprMacro, Ident, parse_macro_input, parse_quote, Token, Type, Visibility};
-use syn::Expr::Macro;
+use quote::{format_ident, quote, quote_spanned};
+use syn::{ExprBlock, Ident, parse_macro_input, Token, Type, Visibility};
 use syn::parse::{Parse, ParseStream};
 use syn::spanned::Spanned;
 
