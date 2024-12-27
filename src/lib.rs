@@ -2,8 +2,9 @@
 
 pub use static_initializer_macros::static_init;
 
-#[static_init]
-static TEST: Vec<u8> = Vec::new();
+static_init! {
+    static TEST: i32 = static { 1 };
+}
 
 #[cfg(test)]
 mod tests {

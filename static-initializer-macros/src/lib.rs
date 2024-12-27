@@ -33,8 +33,8 @@ impl Parse for StaticWithInitializer {
     }
 }
 
-#[proc_macro_attribute]
-pub fn static_init(attr: TokenStream, item: TokenStream) -> TokenStream {
+#[proc_macro]
+pub fn static_init(item: TokenStream) -> TokenStream {
     let StaticWithInitializer {
         vis,
         name,
