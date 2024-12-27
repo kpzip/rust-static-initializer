@@ -3,7 +3,7 @@
 pub use static_initializer_macros::static_init;
 
 #[static_init]
-static TEST: Vec<u8> = unimplemented!();
+static TEST: Vec<u8> = Vec::new();
 
 #[cfg(test)]
 mod tests {
