@@ -18,7 +18,6 @@ impl Parse for StaticWithInitializer {
     fn parse(input: ParseStream) -> syn::parse::Result<Self> {
         let vis: Visibility = input.parse()?;
         input.parse::<Token![static]>()?;
-        input.parse::<Token![ref]>()?;
         let name: Ident = input.parse()?;
         input.parse::<Token![:]>()?;
         let ty: Type = input.parse()?;
