@@ -72,12 +72,12 @@ pub fn static_init(attr: TokenStream, item: TokenStream) -> TokenStream {
             #assert_sync
             #assert_sized
 
-            static mut __STATIC_INIT_INTERNAL_STATIC_#name: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
+            static mut __STATIC_INIT_INTERNAL_STATIC_ #name: core::mem::MaybeUninit<#ty> = core::mem::MaybeUninit::uninit();
 
-            pub fn get_#name() -> &'static #ty {
+            pub fn get_ #name() -> &'static #ty {
                 // SAFETY: initialized at the top of main
                 unsafe {
-                    (&*(&raw const __STATIC_INIT_INTERNAL_STATIC_#name)).assume_init_ref()
+                    (&*(&raw const __STATIC_INIT_INTERNAL_STATIC_ #name)).assume_init_ref()
                 }
             }
         }
