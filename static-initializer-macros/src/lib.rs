@@ -53,7 +53,7 @@ pub fn static_init(attr: TokenStream, item: TokenStream) -> TokenStream {
     // User should set the static to equal unimplemented\
     // todo make this do path comparison?
     let mut warning = true;
-    if let Macro(m) = init {
+    if let Macro(ref m) = init {
         if let Some(ident) = m.mac.path.get_ident() {
             if ident == "unimplemented" {
                 // No Warning
