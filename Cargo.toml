@@ -4,3 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+static_initializer_macros = { path = "static-initializer-macros" }
