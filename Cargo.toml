@@ -2,6 +2,13 @@
 name = "static_initializer"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+description = "Global non-lazy zero-cost statics without `const fn`"
+documentation = "docs.rs/static_initializer"
+repository = "https://github.com/kpzip/rust-static-initializer"
+readme = "README.md"
+keywords = ["static", "init", "initializer"]
+categories = ["memory-management", "rust-patterns", "no-std", "no-std::no-alloc"]
 
 [dependencies]
-static_initializer_macros = { path = "static-initializer-macros" }
+static_initializer_macros = { path = "static-initializer-macros", version = "0.1.0" }
