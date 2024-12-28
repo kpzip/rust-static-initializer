@@ -2,6 +2,10 @@
 name = "static_initializer_macros"
 version = "0.1.0"
 edition = "2021"
+license-file = "../LICENSE"
+description = "Macros for `static_initializer`"
+repository = "https://github.com/kpzip/rust-static-initializer"
+readme = "../README.md"
 
 [lib]
 proc-macro = true
